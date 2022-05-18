@@ -11,7 +11,7 @@ namespace AddressBook
             {
                 Console.WriteLine("\n1. Adding contacts details");
                 Console.WriteLine("2. Add new contact");
-
+                Console.WriteLine("3. Edit added contact");
                 Console.WriteLine("0. Exit");
                 Console.Write("Enter your choice : ");
                 choice = Convert.ToInt32(Console.ReadLine());
@@ -28,6 +28,21 @@ namespace AddressBook
                         ContactPerson person = new ContactPerson();
                         person.AddingContactDetails();
                         person.DisplayDetails();
+                        break;
+                    case 3:
+                        ContactPerson person3 = new ContactPerson();
+                        person3.AddingContactDetails();
+                        person3.DisplayDetails();
+
+                        //Asking user if he/she wanted to edit the contact details or not
+                        Console.WriteLine("Edit contact details using name ? 1: Yes/ Other: No");
+                        Console.Write("Enter your choice : ");
+                        int choice3 = Convert.ToInt32(Console.ReadLine());
+                        if (choice3 == 1)
+                        {
+                            person3.EditContactDetails();
+                            person3.DisplayDetails();
+                        }
                         break;
                     default:
                         Console.WriteLine("Enter correct choice");
