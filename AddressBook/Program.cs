@@ -10,7 +10,8 @@ namespace AddressBook
             do
             {
                 Console.WriteLine("\n1. Adding contacts details");
-                
+                Console.WriteLine("2. Add new contact");
+
                 Console.WriteLine("0. Exit");
                 Console.Write("Enter your choice : ");
                 choice = Convert.ToInt32(Console.ReadLine());
@@ -23,7 +24,11 @@ namespace AddressBook
                         Details details = new Details("Lokesh", "Sonawane", "Warje", "Pune", "Maharashtra", "lokesh@gmail.com", 411058, 919932156480);
                         details.DisplayDetails();
                         break;
-                    
+                    case 2:
+                        ContactPerson person = new ContactPerson();
+                        person.AddingContactDetails();
+                        person.DisplayDetails();
+                        break;
                     default:
                         Console.WriteLine("Enter correct choice");
                         break;
