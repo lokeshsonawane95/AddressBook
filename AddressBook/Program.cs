@@ -70,30 +70,31 @@ namespace AddressBook
                         break;
                     case 5:
                         ContactPersonMultiple person5 = new ContactPersonMultiple();
-                        person5.AddingContactDetails();
-                        person5.DisplayDetails();
+                    Add:
+                        Console.WriteLine("You want to enter details ? 1: Yes/ Other: No");
+                        Console.Write("Enter your choice : ");
+                        int c = Convert.ToInt32(Console.ReadLine());
+                        if (c == 1)
+                        {
+                            person5.AddingContactDetails();
+                            person5.DisplayDetails();
+                            goto Add;
+                        }
 
-                        //Asking user if he/she wanted to edit the contact details or not
+                    //Asking user if he/she wanted to edit the contact details or not
+                    Edit:
                         Console.WriteLine("Edit contact details using name ? 1: Yes/ OtherNumber: No");
                         Console.Write("Enter your choice : ");
                         int choice5 = Convert.ToInt32(Console.ReadLine());
                         if (choice5 == 1)
                         {
-                        Edit:
-                            Console.WriteLine("Edit contact details using name ? 1: Yes/ OtherNumber: No");
-                            Console.Write("Enter your choice : ");
-                            int choice5in = Convert.ToInt32(Console.ReadLine());
-                            if (choice5in == 1)
-                            {
-                                person5.EditContactDetails();
-                                person5.DisplayDetails();
-                                //Go to Edit if user wants to edit again
-                                goto Edit;
-                            }
+                            person5.EditContactDetails();
+                            person5.DisplayDetails();
+                            goto Edit;
                         }
 
-                        //Asking user if he/she wanted to delete the contact details or not
-                        Delete:
+                    //Asking user if he/she wanted to delete the contact details or not
+                    Delete:
                         Console.WriteLine("Delete person using person name ? 1. Yes/ OtherNumber:  No");
                         Console.Write("Enter your choice : ");
                         int choice52 = Convert.ToInt32(Console.ReadLine());

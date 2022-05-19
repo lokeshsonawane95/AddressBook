@@ -42,29 +42,28 @@ namespace AddressBook
             Details details = new Details(firstName, lastName, address, city, state, email, zip, phoneNumber);
 
             //Checking if entered details already present or not
-            if (detailsList.Contains(details))
+            int flag = 0;
+            if (detailsList.Count > 0)
             {
-                Console.WriteLine("These details already present in Address book");
-                Console.WriteLine("You want to enter details again ? 1: Yes/ OtherNumber: No");
-                Console.Write("Enter your choice : ");
-                int c = Convert.ToInt32(Console.ReadLine());
-                if (c == 1)
+                foreach (Details d in detailsList)
                 {
-                    goto AddContactDetails;
+                    if (d.firstName == firstName)
+                    {
+                        //Setting flag to 1 if same firstName is present
+                        flag = 1;
+                        Console.WriteLine("First Name : " + d.firstName);
+                    }
                 }
+            }
+            if (flag == 1)
+            {
+                Console.WriteLine("Same first name already present in Address book");
             }
 
             //If not add it to the list
             else
             {
                 detailsList.Add(details);
-                Console.WriteLine("You want to enter another details ? 1: Yes/ OtherNumber: No");
-                Console.Write("Enter your choice : ");
-                int c = Convert.ToInt32(Console.ReadLine());
-                if (c == 1)
-                {
-                    goto AddContactDetails;
-                }
             }
         }
 
