@@ -83,33 +83,40 @@ namespace AddressBook
 
                     //Asking user if he/she wanted to edit the contact details or not
                     Edit:
-                        Console.WriteLine("Edit contact details using name ? 1: Yes/ OtherNumber: No");
-                        Console.Write("Enter your choice : ");
-                        int choice5 = Convert.ToInt32(Console.ReadLine());
-                        if (choice5 == 1)
+                        if (person5.detailsList.Count > 0)
                         {
-                            person5.EditContactDetails();
-                            person5.DisplayDetails();
-                            goto Edit;
+                            Console.WriteLine("Edit contact details using name ? 1: Yes/ OtherNumber: No");
+                            Console.Write("Enter your choice : ");
+                            int choice5 = Convert.ToInt32(Console.ReadLine());
+                            if (choice5 == 1)
+                            {
+                                person5.EditContactDetails();
+                                person5.DisplayDetails();
+                                goto Edit;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No contact details available to edit");
                         }
 
                     //Asking user if he/she wanted to delete the contact details or not
                     Delete:
-                        Console.WriteLine("Delete person using person name ? 1. Yes/ OtherNumber:  No");
-                        Console.Write("Enter your choice : ");
-                        int choice52 = Convert.ToInt32(Console.ReadLine());
-                        if (choice52 == 1)
+                        if (person5.detailsList.Count > 0)
                         {
-                            if (person5.detailsList.Count > 0)
+                            Console.WriteLine("Delete person using person name ? 1. Yes/ OtherNumber:  No");
+                            Console.Write("Enter your choice : ");
+                            int choice52 = Convert.ToInt32(Console.ReadLine());
+                            if (choice52 == 1)
                             {
                                 person5.DeleteContactDetails();
                                 person5.DisplayDetails();
                                 goto Delete;
                             }
-                            else
-                            {
-                                Console.WriteLine("No contact details available for deletion");
-                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No contact details available for deletion");
                         }
                         break;
                     default:
