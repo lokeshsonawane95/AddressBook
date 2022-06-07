@@ -28,7 +28,7 @@ namespace AddressBook
             for (int i = 0; i < detailsList.Length; i++)
             {
                 detailsList[i] = new List<Details>();
-                Console.WriteLine(detailsList[i]);
+                //Console.WriteLine(detailsList[i]);
             }
 
             AddrBook = new Dictionary<string, int>();
