@@ -148,7 +148,7 @@ namespace AddressBook
             {
                 foreach (Details d in detailsList[addressBookIndex])
                 {
-                    if (d.firstName == firstName)
+                    if (d.firstName.ToUpper() == firstName.ToUpper())
                     {
                         //Setting flag to 1 if same firstName is present
                         flag = 1;
@@ -276,9 +276,13 @@ namespace AddressBook
         {
             Console.Write("Enter First name of the contact detail you want to delete : ");
             string deleteName = Console.ReadLine();
+
+            //Lambda expression to find if deleteName is present in the records or not
+            Details detailsTemp = detailsList[addressBookIndex].FirstOrDefault(x => x.firstName == deleteName);
+
             foreach (Details detail in detailsList[addressBookIndex])
             {
-                if (detail.firstName == deleteName)
+                if (detail.firstName == detailsTemp.firstName)
                 {
                     detailsList[addressBookIndex].Remove(detail);
                     Console.WriteLine("Person details deleted");
