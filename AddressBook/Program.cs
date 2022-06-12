@@ -33,7 +33,7 @@ namespace AddressBook
                     case 2:
                         multipleAddressBook.DisplayAllAddressBooks();
                         multipleAddressBook.AddContactsInAddressBook();
-                        multipleAddressBook.DisplayAllAddressBooks();
+                        multipleAddressBook.DisplayAddressBookAndContactDetails();
                         break;
                     case 3:
                         multipleAddressBook.EditDetailsOfAddressBook();

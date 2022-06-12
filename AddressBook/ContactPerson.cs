@@ -27,6 +27,8 @@ namespace AddressBook
 
         public void AddingContactDetails()
         {
+            ContactPerson contactPerson = new ContactPerson();
+
         //Filling the contact details
         AddContactDetailsAgain:
             Console.WriteLine("Add details one by one");
@@ -117,6 +119,7 @@ namespace AddressBook
             {
                 detailsList.Add(details);
             }
+            detailsList.Sort((contact1, contact2) => contact1.firstName.CompareTo(contact2.firstName));
         }
 
         public bool CheckForExistingContact(List<Details> detailsList, string firstName)
@@ -135,9 +138,10 @@ namespace AddressBook
         //Displaying the details
         public void DisplayDetails()
         {
+            Console.WriteLine("\nContact details are as shown below");
             foreach (Details d in detailsList)
             {
-                Console.WriteLine("\nContact details are as shown below");
+                Console.WriteLine();
                 Console.WriteLine("First Name : " + d.firstName);
                 Console.WriteLine("Last Name : " + d.lastName);
                 Console.WriteLine("Address : " + d.address);
