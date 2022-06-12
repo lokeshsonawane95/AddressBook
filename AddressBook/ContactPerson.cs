@@ -119,7 +119,6 @@ namespace AddressBook
             {
                 detailsList.Add(details);
             }
-            detailsList.Sort((contact1, contact2) => contact1.firstName.CompareTo(contact2.firstName));
         }
 
         public bool CheckForExistingContact(List<Details> detailsList, string firstName)
@@ -138,6 +137,7 @@ namespace AddressBook
         //Displaying the details
         public void DisplayDetails()
         {
+            SortingContactDetails();
             Console.WriteLine("\nContact details are as shown below");
             foreach (Details d in detailsList)
             {
@@ -347,6 +347,37 @@ namespace AddressBook
                 }
             }
             return stateDetailsList;
+        }
+
+        public List<Details> SortingContactDetails()
+        {
+            Console.WriteLine("1. Sort Contact Details by name");
+            Console.WriteLine("2. Sort Contact Details by city");
+            Console.WriteLine("3. Sort Contact Details by state");
+            Console.WriteLine("4. Sort Contact Details by zip");
+            Console.Write("Enter your choice : ");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    detailsList.Sort((contact1, contact2) => contact1.firstName.CompareTo(contact2.firstName));
+                    return detailsList;
+                    break;
+                case 2:
+                    detailsList.Sort((contact1, contact2) => contact1.city.CompareTo(contact2.city));
+                    return detailsList;
+                    break;
+                case 3:
+                    detailsList.Sort((contact1, contact2) => contact1.state.CompareTo(contact2.state));
+                    return detailsList;
+                    break;
+                case 4:
+                    detailsList.Sort((contact1, contact2) => contact1.zip.CompareTo(contact2.zip));
+                    return detailsList;
+                    break;
+                default:
+                    return detailsList;
+            }
         }
     }
 }
