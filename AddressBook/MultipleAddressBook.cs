@@ -8,97 +8,108 @@ namespace AddressBook
 {
     internal class MultipleAddressBook
     {
-        public int need;
         public string choose;
-        public int addressBookIndex;
         public int count = 0;
+
         //Declaring list to add multiple data type information
-        public List<Details>[] detailsList;
+        //public List<Details> detailsList = new List<Details>();
+
+        //Declaring city dictionary
+        public Dictionary<string, List<Details>> cityDictionary = new Dictionary<string, List<Details>>();
+
+        //Declaring city list to store cities as city names can be duplicates and dictionary does not support duplicates
+        public HashSet<string> cityList = new HashSet<string>();
+
+        //Declaring state dictionary
+        public Dictionary<string, List<Details>> stateDictionary = new Dictionary<string, List<Details>>();
+
+        //Declaring state list to store states as state names can be duplicates and dictionary does not support duplicates
+        public HashSet<string> stateList = new HashSet<string>();
 
         //Declaring dictionary for maintaining multiple Address book
-        public Dictionary<string, int> AddrBook;
+        public Dictionary<string, ContactPerson> AddrBook = new Dictionary<string, ContactPerson>();
 
-        public MultipleAddressBook(int need)
+        /*public MultipleAddressBook()
         {
-            this.need = need;
-            detailsList = new List<Details>[need];
-
-            //Initializing all values of the array of List detailsList with objects of Details
-            //If we dont initialize the array it will contail null references
-            for (int i = 0; i < detailsList.Length; i++)
-            {
-                detailsList[i] = new List<Details>();
-                //Console.WriteLine(detailsList[i]);
-            }
-
-            AddrBook = new Dictionary<string, int>();
-        }
+            //detailsList = new List<Details>();
+            
+            //AddrBook = new Dictionary<string, ContactPerson>();
+        }*/
 
         //Adding Address Books one by one
         public void AddingMultipleAddressBooks()
         {
-        AddAddresBook:
-            Console.Write("Add new Address Book ? ( Press 1 for Yes / OtherNumber for No) : ");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1)
+            Console.Write("Address book name : ");
+            string addressBookName = Console.ReadLine();
+
+            //If entered value is null
+            if (addressBookName == "" | addressBookName == null)
             {
-            doit:
+                Console.WriteLine("Please write Address Book name");
+            }
 
-                //Adding Address books less than or equal to the number we need
-                if (AddrBook.Count < need)
-                {
-                    Console.Write("Address book name : ");
-                    string addressBookName = Console.ReadLine();
-
-                    //If entered value is null
-                    if (addressBookName == "")
-                    {
-                        Console.WriteLine("Please write Address Book name");
-                        goto doit;
-                    }
-
-                    //If entered value already present
-                    if (AddrBook.ContainsKey(addressBookName))
-                    {
-                        Console.WriteLine("Entered Address Book name already present please enter again");
-                        goto doit;
-                    }
-                    else
-                    {
-                        AddrBook.Add(addressBookName, count);
-                        count++;
-                        goto AddAddresBook;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Cannot add new Address Book beyond " + need);
-                }
+            //If entered value already present
+            if (AddrBook.ContainsKey(addressBookName))
+            {
+                Console.WriteLine("Entered Address Book name already present please enter again");
+            }
+            else
+            {
+                ContactPerson contactPerson = new ContactPerson();
+                AddrBook.Add(addressBookName, contactPerson);
             }
         }
 
         //Asking user to choose which Address book to access
-        public void AccessingAddressBook()
+        public void AddContactsInAddressBook()
         {
-        repeatAccessingAddressBook:
-            Console.Write("Enter the name of the Address Book you want to access : ");
-            string choose = Console.ReadLine();
-
-            //Check if entered AddressBook name(here key) is available in dictionary or entered Address book is empty
-            if (AddrBook.ContainsKey(choose) && choose != "")
+            if (AddrBook.Count > 0)
             {
-                this.choose = choose;
+                Console.Write("Enter the name of the Address Book you want to access : ");
+                string choose = Console.ReadLine();
 
-                //For storing the index of the Address Book we have choosen
-                addressBookIndex = AddrBook[choose];
+                //Check if entered AddressBook name(here key) is available in dictionary or entered Address book is empty
+                if (!AddrBook.ContainsKey(choose))
+                {
+                    Console.WriteLine("Choose from available names");
+                    /*this.choose = choose;
+                    MultipleAddressBook multipleAddressBook = AddrBook[choose];*/
+                }
+                //Check again
+                else
+                {
+                    ContactPerson contactPerson = AddrBook[choose];
+                    contactPerson.AddingContactDetails();
+                }
             }
-            //Check again
             else
             {
-                Console.WriteLine("Choose from available names");
+                Console.WriteLine("Address book records are empty");
+            }
+        }
 
-                //If entered credentials are wrong enter values again
-                goto repeatAccessingAddressBook;
+        public void EditDetailsOfAddressBook()
+        {
+            if (AddrBook.Count > 0)
+            {
+                Console.Write("Enter the name of the Address Book you want to access : ");
+                string choose = Console.ReadLine();
+
+                //Check if entered AddressBook name(here key) is available in dictionary or entered Address book is empty
+                if (!AddrBook.ContainsKey(choose))
+                {
+                    Console.WriteLine("Choose from available names");
+                }
+                //Check again
+                else
+                {
+                    ContactPerson contactPerson = AddrBook[choose];
+                    contactPerson.EditContactDetails();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Address book records are empty");
             }
         }
 
@@ -107,9 +118,10 @@ namespace AddressBook
         {
             if (AddrBook.Count > 0)
             {
-                foreach (KeyValuePair<string, int> pair in AddrBook)
+                Console.WriteLine("Address books are :");
+                foreach (KeyValuePair<string, ContactPerson> pair in AddrBook)
                 {
-                    Console.WriteLine("Name : {0}\tIndex Number : {1}", pair.Key, pair.Value);
+                    Console.WriteLine("Name : {0}", pair.Key);
                 }
             }
             else
@@ -118,63 +130,65 @@ namespace AddressBook
             }
         }
 
-        public void AddingContactDetails()
+        public void DeletingDetailsInAddressBook()
         {
-            //Filling the contact details
-            Console.WriteLine("Add details one by one");
-            Console.Write("Enter First Name : ");
-            string firstName = Console.ReadLine();
-            Console.Write("Enter Last Name : ");
-            string lastName = Console.ReadLine();
-            Console.Write("Enter Address : ");
-            string address = Console.ReadLine();
-            Console.Write("Enter City : ");
-            string city = Console.ReadLine();
-            Console.Write("Enter State : ");
-            string state = Console.ReadLine();
-            Console.Write("Enter zip code : ");
-            int zip = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter phone number : ");
-            long phoneNumber = Convert.ToInt64(Console.ReadLine());
-            Console.Write("Enter Email id : ");
-            string email = Console.ReadLine();
-
-            //Passing values to the details object
-            Details details = new Details(firstName, lastName, address, city, state, email, zip, phoneNumber);
-
-            //Checking if entered details already present or not
-            int flag = 0;
-            if (detailsList[addressBookIndex].Count > 0)
+            if (AddrBook.Count > 0)
             {
-                foreach (Details d in detailsList[addressBookIndex])
+                Console.Write("Enter the name of the Address Book you want to access : ");
+                string choose = Console.ReadLine();
+
+                //Check if entered AddressBook name(here key) is available in dictionary or entered Address book is empty
+                if (!AddrBook.ContainsKey(choose))
                 {
-                    if (d.firstName.ToUpper() == firstName.ToUpper())
-                    {
-                        //Setting flag to 1 if same firstName is present
-                        flag = 1;
-                        Console.WriteLine("First Name : " + d.firstName);
-                    }
+                    Console.WriteLine("Choose from available names");
+                }
+                //Check again
+                else
+                {
+                    ContactPerson contactPerson = AddrBook[choose];
+                    contactPerson.DeleteContactDetails();
                 }
             }
-            if (flag == 1)
-            {
-                Console.WriteLine("Same first name already present in Address book");
-            }
-
-            //If not add it to the list of the current Address Book
             else
             {
-                detailsList[addressBookIndex].Add(details);
+                Console.WriteLine("Address book records are empty");
             }
         }
 
+        public void DeleteAddressBook()
+        {
+            Console.Write("Enter the name of the Address Book you want to Delete : ");
+            string choose = Console.ReadLine();
+
+            //Check if entered AddressBook name(here key) is available in dictionary or entered Address book is empty
+            if (!AddrBook.ContainsKey(choose))
+            {
+                Console.WriteLine("Choose from available names");
+            }
+            else
+            {
+                AddrBook.Remove(choose);
+            }
+        }
+
+        public void DisplayAddressBookAndContactDetails()
+        {
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                Console.WriteLine("Address book name is : " + keyValuePair.Key);
+                ContactPerson contactPerson = keyValuePair.Value;
+                contactPerson.DisplayDetails();
+            }
+        }
+
+
         //Displaying the details
-        public void DisplayDetails()
+        /*public void DisplayDetails()
         {
             //Checking if detailsList List of current Address Book contains something or not
-            if (detailsList[addressBookIndex].Count > 0)
+            if (detailsList.Count > 0)
             {
-                foreach (Details d in detailsList[addressBookIndex])
+                foreach (Details d in detailsList)
                 {
                     Console.WriteLine("\nContact details of Address Book " + choose + " are as shown below");
                     Console.WriteLine("First Name : " + d.firstName);
@@ -193,143 +207,128 @@ namespace AddressBook
             {
                 Console.WriteLine("No contact details available to display");
             }
-        }
+        }*/
 
-        //Editing in existing contact details
-        public void EditContactDetails()
-        {
-            Console.Write("Enter the First Name of the contact for which you want to edit : ");
-            string fName = Console.ReadLine();
-            foreach (Details detail in detailsList[addressBookIndex])
-            {
-                if (detail.firstName == fName)
-                {
-                    Console.WriteLine("1. First Name");
-                    Console.WriteLine("2. Last Name");
-                    Console.WriteLine("3. Address");
-                    Console.WriteLine("4. City");
-                    Console.WriteLine("5. State");
-                    Console.WriteLine("6. Zip code");
-                    Console.WriteLine("7. Phone number");
-                    Console.WriteLine("8. Email id");
-                    Console.WriteLine("Other. Exit to display contact details");
-                    Console.Write("Choose what you want to edit : ");
-                    int choice = Convert.ToInt32(Console.ReadLine());
-                    switch (choice)
-                    {
-                        case 1:
-                            Console.Write("Enter new First Name : ");
-                            string newName = Console.ReadLine();
-                            detail.firstName = newName;
-                            break;
-                        case 2:
-                            Console.Write("Enter new Last Name : ");
-                            string newLast = Console.ReadLine();
-                            detail.lastName = newLast;
-                            break;
-                        case 3:
-                            Console.Write("Enter new Address : ");
-                            string newAdd = Console.ReadLine();
-                            detail.address = newAdd;
-                            break;
-                        case 4:
-                            Console.Write("Enter new City : ");
-                            string newCity = Console.ReadLine();
-                            detail.city = newCity;
-                            break;
-                        case 5:
-                            Console.Write("Enter new State : ");
-                            string newState = Console.ReadLine();
-                            detail.state = newState;
-                            break;
-                        case 6:
-                            Console.Write("Enter new zip code : ");
-                            int newZip = Convert.ToInt32(Console.ReadLine());
-                            detail.zip = newZip;
-                            break;
-                        case 7:
-                            Console.Write("Enter new Phone number : ");
-                            long newPhone = Convert.ToInt64(Console.ReadLine());
-                            detail.phoneNumber = newPhone;
-                            break;
-                        case 8:
-                            Console.Write("Enter new Email id : ");
-                            string newEmail = Console.ReadLine();
-                            detail.email = newEmail;
-                            break;
-                        default:
-                            Console.WriteLine("\nEnter correct choice");
-                            break;
-                    }
-                }
-
-                //If input does not match with the contact list detail
-                else
-                {
-                    Console.WriteLine("Entered input does not match with contact details");
-                }
-            }
-        }
-
-        //For deleting person details
-        public void DeleteContactDetails()
-        {
-            Console.Write("Enter First name of the contact detail you want to delete : ");
-            string deleteName = Console.ReadLine();
-
-            //Lambda expression to find if deleteName is present in the records or not
-            Details detailsTemp = detailsList[addressBookIndex].FirstOrDefault(x => x.firstName == deleteName);
-
-            foreach (Details detail in detailsList[addressBookIndex])
-            {
-                if (detail.firstName == detailsTemp.firstName)
-                {
-                    detailsList[addressBookIndex].Remove(detail);
-                    Console.WriteLine("Person details deleted");
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Wrong credentials");
-                }
-            }
-        }
-
-        //To search person by city name
         public void SearchPersonByCity()
         {
             Console.Write("Enter the city to search : ");
             string cityName = Console.ReadLine();
-            foreach (KeyValuePair<string, int> keyValuePair in AddrBook)
+
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
             {
-                int count = 0;
-                foreach (Details details in detailsList[count])
+                Console.WriteLine("Address book name is : " + keyValuePair.Key);
+                ContactPerson person = keyValuePair.Value;
+                person.SearchPersonByCity(cityName);
+            }
+        }
+
+        public void SearchPersonByState()
+        {
+            Console.Write("Enter the state name to search : ");
+            string stateName = Console.ReadLine();
+
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                Console.WriteLine("Address book name is : " + keyValuePair.Key);
+                ContactPerson person = keyValuePair.Value;
+                person.SearchPersonByState(stateName);
+            }
+        }
+
+        public void GetCityNames()
+        {
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                ContactPerson contactPerson = keyValuePair.Value;
+
+                foreach (string city in contactPerson.AddToCityList())
                 {
-                    if (details.city == cityName)
-                    {
-                        Console.WriteLine("Person " + details.firstName + " from city : " + details.city + " is present in Address book : " + keyValuePair.Key);
-                    }
-                    count++;
+                    cityList.Add(city);
                 }
             }
         }
 
-        //To search person by state name
-        public void SearchPersonByState()
+        public void GetStateNames()
         {
-            Console.Write("Enter the state to search : ");
-            string stateName = Console.ReadLine();
-            foreach (KeyValuePair<string, int> keyValuePair in AddrBook)
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
             {
-                int count = 0;
-                foreach (Details details in detailsList[count])
+                ContactPerson contactPerson = keyValuePair.Value;
+
+                foreach (string state in contactPerson.AddToStateList())
                 {
-                    if (details.city == stateName)
-                    {
-                        Console.WriteLine("Person " + details.firstName + " from state : " + details.state + " is present in Address book : " + keyValuePair.Key);
-                        break;
-                    }
-                    count++;
+                    stateList.Add(state);
+                }
+            }
+        }
+
+        public void AddToCityDictionary()
+        {
+            foreach (string city in cityList)
+            {
+                List<Details> cityDetailsList = new List<Details>();
+                foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+                {
+                    ContactPerson contactPerson = keyValuePair.Value;
+                    cityDetailsList = contactPerson.ContactDetailsByCity(city, cityDetailsList);
+                }
+                cityDictionary.Add(city, cityDetailsList);
+            }
+        }
+
+
+
+        public void AddToStateDictionary()
+        {
+            foreach (string state in stateList)
+            {
+                List<Details> stateDetailsList = new List<Details>();
+                foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+                {
+                    ContactPerson contactPerson = keyValuePair.Value;
+                    stateDetailsList = contactPerson.ContactDetailsByState(state, stateDetailsList);
+                }
+                stateDictionary.Add(state, stateDetailsList);
+            }
+        }
+
+        //To view person details by city name
+        public void ViewPersonByCity()
+        {
+            foreach (KeyValuePair<string, List<Details>> keyValuePair in cityDictionary)
+            {
+                Console.WriteLine("\nName of the city : " + keyValuePair.Key);
+                foreach (Details details in keyValuePair.Value)
+                {
+                    Console.WriteLine("First Name : " + details.firstName);
+                    Console.WriteLine("Last Name : " + details.lastName);
+                    Console.WriteLine("Address : " + details.address);
+                    Console.WriteLine("City : " + details.city);
+                    Console.WriteLine("State : " + details.state);
+                    Console.WriteLine("Zip code : " + details.zip);
+                    Console.WriteLine("Phone number : " + details.phoneNumber);
+                    Console.WriteLine("Email id : " + details.email);
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        //To view person details by state name
+        public void ViewPersonByState()
+        {
+            foreach (KeyValuePair<string, List<Details>> keyValuePair in stateDictionary)
+            {
+                Console.WriteLine("\nName of the state : " + keyValuePair.Key);
+                foreach (Details details in keyValuePair.Value)
+                {
+                    Console.WriteLine("First Name : " + details.firstName);
+                    Console.WriteLine("Last Name : " + details.lastName);
+                    Console.WriteLine("Address : " + details.address);
+                    Console.WriteLine("City : " + details.city);
+                    Console.WriteLine("State : " + details.state);
+                    Console.WriteLine("Zip code : " + details.zip);
+                    Console.WriteLine("Phone number : " + details.phoneNumber);
+                    Console.WriteLine("Email id : " + details.email);
+                    Console.WriteLine();
                 }
             }
         }
