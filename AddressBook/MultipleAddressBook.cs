@@ -9,10 +9,6 @@ namespace AddressBook
     internal class MultipleAddressBook
     {
         public string choose;
-        public int count = 0;
-
-        //Declaring list to add multiple data type information
-        //public List<Details> detailsList = new List<Details>();
 
         //Declaring city dictionary
         public Dictionary<string, List<Details>> cityDictionary = new Dictionary<string, List<Details>>();
@@ -28,13 +24,6 @@ namespace AddressBook
 
         //Declaring dictionary for maintaining multiple Address book
         public Dictionary<string, ContactPerson> AddrBook = new Dictionary<string, ContactPerson>();
-
-        /*public MultipleAddressBook()
-        {
-            //detailsList = new List<Details>();
-            
-            //AddrBook = new Dictionary<string, ContactPerson>();
-        }*/
 
         //Adding Address Books one by one
         public void AddingMultipleAddressBooks()
@@ -181,34 +170,6 @@ namespace AddressBook
             }
         }
 
-
-        //Displaying the details
-        /*public void DisplayDetails()
-        {
-            //Checking if detailsList List of current Address Book contains something or not
-            if (detailsList.Count > 0)
-            {
-                foreach (Details d in detailsList)
-                {
-                    Console.WriteLine("\nContact details of Address Book " + choose + " are as shown below");
-                    Console.WriteLine("First Name : " + d.firstName);
-                    Console.WriteLine("Last Name : " + d.lastName);
-                    Console.WriteLine("Address : " + d.address);
-                    Console.WriteLine("City : " + d.city);
-                    Console.WriteLine("State : " + d.state);
-                    Console.WriteLine("Zip code : " + d.zip);
-                    Console.WriteLine("Phone number : " + d.phoneNumber);
-                    Console.WriteLine("Email id : " + d.email);
-                }
-            }
-
-            //If List is empty then there is nothing to show
-            else
-            {
-                Console.WriteLine("No contact details available to display");
-            }
-        }*/
-
         public void SearchPersonByCity()
         {
             Console.Write("Enter the city to search : ");
@@ -275,8 +236,6 @@ namespace AddressBook
             }
         }
 
-
-
         public void AddToStateDictionary()
         {
             foreach (string state in stateList)
@@ -296,6 +255,7 @@ namespace AddressBook
         {
             foreach (KeyValuePair<string, List<Details>> keyValuePair in cityDictionary)
             {
+                int count = 0;
                 Console.WriteLine("\nName of the city : " + keyValuePair.Key);
                 foreach (Details details in keyValuePair.Value)
                 {
@@ -308,7 +268,9 @@ namespace AddressBook
                     Console.WriteLine("Phone number : " + details.phoneNumber);
                     Console.WriteLine("Email id : " + details.email);
                     Console.WriteLine();
+                    count++;
                 }
+                Console.WriteLine("Total contacts in city " + keyValuePair.Key + " are : " + count);
             }
         }
 
@@ -317,6 +279,7 @@ namespace AddressBook
         {
             foreach (KeyValuePair<string, List<Details>> keyValuePair in stateDictionary)
             {
+                int count = 0;
                 Console.WriteLine("\nName of the state : " + keyValuePair.Key);
                 foreach (Details details in keyValuePair.Value)
                 {
@@ -329,7 +292,9 @@ namespace AddressBook
                     Console.WriteLine("Phone number : " + details.phoneNumber);
                     Console.WriteLine("Email id : " + details.email);
                     Console.WriteLine();
+                    count++;
                 }
+                Console.WriteLine("Total contacts in state " + keyValuePair.Key + " are : " + count);
             }
         }
     }
