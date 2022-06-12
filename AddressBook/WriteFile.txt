@@ -1,0 +1,24 @@
+
+Name of the address book is : A
+
+First Name : Lokesh
+Last Name : Sonawane
+Address : Warje
+City : Pune
+State : Maharashtra
+Zip code : 411052
+Phone number : 1234567890
+Email id : lokesh.sonawane@gmail.com
+
+
+Name of the address book is : B
+
+First Name : Lok
+Last Name : Sonawane
+Address : Warje
+City : Pune
+State : Maha
+Zip code : 411058
+Phone number : 9087654321
+Email id : lok.sonawane@gmail.com
+

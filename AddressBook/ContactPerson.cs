@@ -349,6 +349,7 @@ namespace AddressBook
             return stateDetailsList;
         }
 
+        //To sort according to requirements
         public List<Details> SortingContactDetails()
         {
             Console.WriteLine("1. Sort Contact Details by name");
@@ -377,6 +378,32 @@ namespace AddressBook
                     break;
                 default:
                     return detailsList;
+            }
+        }
+
+        //To write contact details in a file
+        public void AddContactsToTextFile(string addressBookName)
+        {
+            string path = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\WriteFile.txt";
+            if (File.Exists(path))
+            {
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.WriteLine("\nName of the address book is : " + addressBookName);
+                    foreach (Details d in detailsList)
+                    {
+                        sw.WriteLine();
+                        sw.WriteLine("First Name : " + d.firstName);
+                        sw.WriteLine("Last Name : " + d.lastName);
+                        sw.WriteLine("Address : " + d.address);
+                        sw.WriteLine("City : " + d.city);
+                        sw.WriteLine("State : " + d.state);
+                        sw.WriteLine("Zip code : " + d.zip);
+                        sw.WriteLine("Phone number : " + d.phoneNumber);
+                        sw.WriteLine("Email id : " + d.email);
+                        sw.WriteLine();
+                    }
+                }
             }
         }
     }

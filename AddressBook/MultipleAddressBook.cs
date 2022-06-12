@@ -297,5 +297,53 @@ namespace AddressBook
                 Console.WriteLine("Total contacts in state " + keyValuePair.Key + " are : " + count);
             }
         }
+
+        //To Read contacts from a text file
+        public void ReadContactsFromTextFile()
+        {
+            string path = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\ReadFile.txt";
+            Console.WriteLine("Reading data from a text file\n");
+            if (File.Exists(path))
+            {
+                using (StreamReader reader = File.OpenText(path))
+                {
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Console.WriteLine(line);
+                    }
+                }
+            }
+        }
+
+        //To Write contacts to a text file
+        public void WriteContactsToTextFile()
+        {
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                ContactPerson contactPerson = keyValuePair.Value;
+                contactPerson.AddContactsToTextFile(keyValuePair.Key);
+            }
+            Console.WriteLine("Contact details appended in the file");
+            Console.Write("Press 1 to read the appended data (other key to exit): ");
+            int readChoice = Convert.ToInt32(Console.ReadLine());
+            if (readChoice == 1)
+            {
+                string readPath = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\WriteFile.txt";
+                Console.WriteLine("Reading appended data from the text file");
+
+                if (File.Exists(readPath))
+                {
+                    using (StreamReader reader = File.OpenText(readPath))
+                    {
+                        string line = "";
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            Console.WriteLine(line);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
