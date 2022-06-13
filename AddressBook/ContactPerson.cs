@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -403,6 +405,31 @@ namespace AddressBook
                         sw.WriteLine("Email id : " + d.email);
                         sw.WriteLine();
                     }
+                }
+            }
+        }
+
+        //To write contact details to a csv file
+        public void AddCotactsToCSVFile(string addressBookName)
+        {
+            string path = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\CSVFiles\" + addressBookName + ".csv";
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                using (CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    foreach (Details d in detailsList)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("First Name : " + d.firstName);
+                        Console.WriteLine("Last Name : " + d.lastName);
+                        Console.WriteLine("Address : " + d.address);
+                        Console.WriteLine("City : " + d.city);
+                        Console.WriteLine("State : " + d.state);
+                        Console.WriteLine("Zip code : " + d.zip);
+                        Console.WriteLine("Phone number : " + d.phoneNumber);
+                        Console.WriteLine("Email id : " + d.email);
+                    }
+                    csvWriter.WriteRecords(detailsList);
                 }
             }
         }

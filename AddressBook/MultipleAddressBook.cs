@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -343,6 +345,50 @@ namespace AddressBook
                         }
                     }
                 }
+            }
+        }
+
+        //To read data from a csv file
+        public void ReadContactsFromCSVFile()
+        {
+            Console.WriteLine("Reading data from a csv file");
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                string path = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\CSVFiles\" + keyValuePair.Key + ".csv";
+                if (File.Exists(path))
+                {
+                    using (StreamReader streamReader = new StreamReader(path))
+                    {
+                        using (CsvReader csv = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                        {
+                            List<Details> list = csv.GetRecords<Details>().ToList();
+                            foreach (Details d in list)
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("First Name : " + d.firstName);
+                                Console.WriteLine("Last Name : " + d.lastName);
+                                Console.WriteLine("Address : " + d.address);
+                                Console.WriteLine("City : " + d.city);
+                                Console.WriteLine("State : " + d.state);
+                                Console.WriteLine("Zip code : " + d.zip);
+                                Console.WriteLine("Phone number : " + d.phoneNumber);
+                                Console.WriteLine("Email id : " + d.email);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //To write data to a csv file
+        public void WriteContactsToCSVFile()
+        {
+            Console.WriteLine("Writing data to a csv file");
+
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                ContactPerson contactPerson = keyValuePair.Value;
+                contactPerson.AddCotactsToCSVFile(keyValuePair.Key);
             }
         }
     }
