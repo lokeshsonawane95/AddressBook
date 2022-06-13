@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -430,6 +431,20 @@ namespace AddressBook
                         Console.WriteLine("Email id : " + d.email);
                     }
                     csvWriter.WriteRecords(detailsList);
+                }
+            }
+        }
+
+        //To write contact details to a JSON file
+        public void AddContactsToJSONFile(string addressBookName)
+        {
+            string path = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\JSONFiles\" + addressBookName + ".json";
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                using (JsonWriter jsonWriter = new JsonTextWriter(writer))
+                {
+                    serializer.Serialize(jsonWriter, detailsList);
                 }
             }
         }

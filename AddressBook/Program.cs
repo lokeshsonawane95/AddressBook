@@ -23,6 +23,7 @@ namespace AddressBook
                 Console.WriteLine("11. Read Contacts from a file");
                 Console.WriteLine("12. Write Contacts to a file");
                 Console.WriteLine("13. Read/Write Contacts from a csv file");
+                Console.WriteLine("14. Read/Write Contacts from a JSON file");
                 Console.WriteLine(" 0. Exit");
                 Console.Write("Enter your choice : ");
                 choice = Convert.ToInt32(Console.ReadLine());
@@ -77,6 +78,10 @@ namespace AddressBook
                     case 13:
                         multipleAddressBook.WriteContactsToCSVFile();
                         multipleAddressBook.ReadContactsFromCSVFile();
+                        break;
+                    case 14:
+                        multipleAddressBook.WriteContactsToJSONFile();
+                        multipleAddressBook.ReadContactsFromJSONFile();
                         break;
                     case 0:
                         return;

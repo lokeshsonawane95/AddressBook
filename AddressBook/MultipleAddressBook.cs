@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -389,6 +390,43 @@ namespace AddressBook
             {
                 ContactPerson contactPerson = keyValuePair.Value;
                 contactPerson.AddCotactsToCSVFile(keyValuePair.Key);
+            }
+        }
+
+        //To read data from a JSON file
+        public void ReadContactsFromJSONFile()
+        {
+            Console.WriteLine("Reading data from a JSON file");
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                string path = @"C:\Users\Lokesh\CS\AddressBook\AddressBook\JSONFiles\" + keyValuePair.Key + ".json";
+                if (File.Exists(path))
+                {
+                    List<Details> list = JsonConvert.DeserializeObject<List<Details>>(File.ReadAllText(path));
+                    foreach (Details d in list)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("First Name : " + d.firstName);
+                        Console.WriteLine("Last Name : " + d.lastName);
+                        Console.WriteLine("Address : " + d.address);
+                        Console.WriteLine("City : " + d.city);
+                        Console.WriteLine("State : " + d.state);
+                        Console.WriteLine("Zip code : " + d.zip);
+                        Console.WriteLine("Phone number : " + d.phoneNumber);
+                        Console.WriteLine("Email id : " + d.email);
+                    }
+                }
+            }
+        }
+
+        //To write data to a JSON file
+        public void WriteContactsToJSONFile()
+        {
+            Console.WriteLine("Writing data to a JSON file");
+            foreach (KeyValuePair<string, ContactPerson> keyValuePair in AddrBook)
+            {
+                ContactPerson contactPerson = keyValuePair.Value;
+                contactPerson.AddContactsToJSONFile(keyValuePair.Key);
             }
         }
     }
