@@ -110,11 +110,13 @@ namespace AddressBook
         {
             if (AddrBook.Count > 0)
             {
+                Console.WriteLine("*********************");
                 Console.WriteLine("Address books are :");
                 foreach (KeyValuePair<string, ContactPerson> pair in AddrBook)
                 {
-                    Console.WriteLine("Name : {0}", pair.Key);
+                    Console.WriteLine("Address Book Name : {0}", pair.Key);
                 }
+                Console.WriteLine("*********************");
             }
             else
             {
